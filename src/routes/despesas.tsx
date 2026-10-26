@@ -20,7 +20,7 @@ const PAG = ["Pix", "Dinheiro", "Cartão de débito", "Cartão de crédito", "Bo
 
 function Despesas() {
   const s = useStore();
-  const [f, setF] = useState({ descricao: "", valor: "", pagamento: PAG[0] });
+  const [f, setF] = useState({ descricao: "", valor: "", pagamento: "Pix" });
   const total = s.despesas.reduce((a, d) => a + d.valor, 0);
   function submit(e: React.FormEvent) {
     e.preventDefault();

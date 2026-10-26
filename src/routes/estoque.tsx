@@ -21,7 +21,7 @@ const QUAL = ["Folheado 10 milésimos", "Banho ouro 18k", "Banho ródio", "Prata
 
 function Estoque() {
   const s = useStore();
-  const [f, setF] = useState({ nome: "", categoria: CATS[0], qualidade: QUAL[0], estoque: "1", custo: "", margem: "100" });
+  const [f, setF] = useState({ nome: "", categoria: "Brinco", qualidade: "Folheado 10 milésimos", estoque: "1", custo: "", margem: "100" });
   const [file, setFile] = useState<File>();
   const [q, setQ] = useState("");
   const codigo = novoCodigo("PC", s.pecas);

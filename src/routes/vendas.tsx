@@ -23,7 +23,7 @@ function Vendas() {
   const [clienteId, setCliente] = useState("");
   const [pecaId, setPeca] = useState("");
   const [qtd, setQtd] = useState("1");
-  const [pag, setPag] = useState(PAG[0]);
+  const [pag, setPag] = useState("Pix");
   const [desc, setDesc] = useState("0");
   const [q, setQ] = useState("");
   const [ok, setOk] = useState(false);
