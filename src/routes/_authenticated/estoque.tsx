@@ -31,7 +31,19 @@ function Estoque() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!f.nome) return;
-    actions.addPeca({ codigo, nome: f.nome, categoria: f.categoria, qualidade: f.qualidade, estoque: Number(f.estoque) || 0, custo: Number(f.custo) || 0, venda, numero: f.categoria === "Anel" ? f.numero : undefined, foto: await readImage(file) });
+    const foto = await readImage(file);
+    const base = { nome: f.nome, categoria: f.categoria, qualidade: f.qualidade, estoque: Number(f.estoque) || 0, custo: Number(f.custo) || 0, venda, foto };
+    const numeros = f.categoria === "Anel" ? f.numero.split(/[,;\s]+/).map((t) => t.trim()).filter(Boolean) : [];
+    if (numeros.length > 1) {
+      let lista = s.pecas;
+      for (const numero of numeros) {
+        const cod = novoCodigo("PC", lista);
+        actions.addPeca({ ...base, codigo: cod, numero });
+        lista = [...lista, { codigo: cod }];
+      }
+    } else {
+      actions.addPeca({ ...base, codigo, numero: numeros[0] ?? undefined });
+    }
     setF({ ...f, nome: "", custo: "", estoque: "1", numero: "" }); setFile(undefined);
     (e.target as HTMLFormElement).reset();
   }
@@ -46,7 +58,10 @@ function Estoque() {
           <Field label="Categoria"><select className="input" value={f.categoria} onChange={(e) => setF({ ...f, categoria: e.target.value })}>{CATS.map((c) => <option key={c}>{c}</option>)}</select></Field>
           <Field label="Qualidade / banho"><select className="input" value={f.qualidade} onChange={(e) => setF({ ...f, qualidade: e.target.value })}>{QUAL.map((c) => <option key={c}>{c}</option>)}</select></Field>
           {f.categoria === "Anel" ? (
-            <Field label="Numeração (anel)"><input className="input" inputMode="numeric" placeholder="Ex.: 17" value={f.numero} onChange={(e) => setF({ ...f, numero: e.target.value })} /></Field>
+            <Field label="Numerações (anel)">
+              <input className="input" placeholder="Ex.: 14, 16, 17, 19" value={f.numero} onChange={(e) => setF({ ...f, numero: e.target.value })} />
+              <span className="mt-1 block text-xs text-muted-foreground">Separe por vírgula para cadastrar uma peça em cada numeração.</span>
+            </Field>
           ) : null}
           <Field label="Quantidade"><input type="number" min="0" className="input" value={f.estoque} onChange={(e) => setF({ ...f, estoque: e.target.value })} /></Field>
           <Field label="Preço de custo (R$)"><input type="number" step="0.01" className="input" value={f.custo} onChange={(e) => setF({ ...f, custo: e.target.value })} /></Field>
