@@ -132,7 +132,57 @@ function Qtd({ value, max, onChange }: { value: number; max: number; onChange: (
   );
 }
 
-function SeletorPecas({ open, onOpenChange, inicial, onConfirm }: { open: boolean; onOpenChange: (o: boolean) => void; inicial: Carrinho; onConfirm: (c: Carrinho) => void }) {
+function digits(v: string) {
+  return v.replace(/\D/g, "");
+}
+
+function SeletorClientes({ open, onOpenChange, onPick }: { open: boolean; onOpenChange: (o: boolean) => void; onPick: (id: string) => void }) {
+  const s = useStore();
+  const [q, setQ] = useState("");
+  useEffect(() => { if (open) setQ(""); }, [open]);
+  const t = q.toLowerCase();
+  const dq = digits(q);
+  const lista = s.clientes.filter((c) =>
+    c.nome.toLowerCase().includes(t) ||
+    c.codigo.toLowerCase().includes(t) ||
+    (dq.length >= 3 && (digits(c.cpf).includes(dq) || digits(c.telefone).includes(dq)))
+  );
+  const contatos = s.clientes.map((c) => `${c.nome} ${c.codigo} ${c.cpf} ${c.telefone}`).join(" ");
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="flex max-h-[90vh] max-w-lg flex-col gap-4">
+        <DialogHeader><DialogTitle className="font-display text-2xl">Buscar cliente</DialogTitle></DialogHeader>
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <input autoFocus className="input pl-9" placeholder="Nome, CPF ou telefone…" value={q} onChange={(e) => setQ(e.target.value)} />
+        </div>
+        <div className="-mx-2 min-h-0 flex-1 overflow-y-auto px-2">
+          {!s.clientes.length ? <Empty>Nenhum cliente cadastrado. Cadastre na tela "Revendedoras".</Empty> : !lista.length ? <Empty>Nenhum cliente encontrado para "{q}".</Empty> : (
+            <ul className="divide-y divide-border">
+              {lista.map((c) => (
+                <li key={c.id}>
+                  <button type="button" className="flex w-full items-center gap-3 py-2.5 text-left hover:bg-muted/50" onClick={() => onPick(c.id)}>
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted font-display text-sm text-primary">{c.nome.trim()[0]?.toUpperCase() ?? "?"}</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium">{c.nome}</div>
+                      <div className="truncate text-xs text-muted-foreground">{c.cpf || "—"}</div>
+                    </div>
+                    <div className="text-right text-xs">
+                      <div className="font-mono text-primary">{c.codigo}</div>
+                      <div className="text-muted-foreground">{c.telefone || "—"}</div>
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <p className="hidden">{contatos.length}</p>
+      </DialogContent>
+    </Dialog>
+  );
+}
   const s = useStore();
   const [q, setQ] = useState("");
   const [sel, setSel] = useState<Carrinho>({});
