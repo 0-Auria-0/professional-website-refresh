@@ -1,9 +1,9 @@
 import { useSyncExternalStore } from "react";
 
-export type Cliente = { id: string; codigo: string; nome: string; cpf: string; telefone: string; foto?: string };
+export type Cliente = { id: string; codigo: string; nome: string; cpf: string; telefone: string; foto?: string | undefined };
 export type Peca = {
   id: string; codigo: string; nome: string; categoria: string; qualidade: string;
-  estoque: number; custo: number; venda: number; foto?: string;
+  estoque: number; custo: number; venda: number; foto?: string | undefined;
 };
 export type Venda = {
   id: string; data: string; clienteId: string; pecaId: string; qtd: number;
