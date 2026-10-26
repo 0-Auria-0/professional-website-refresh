@@ -178,11 +178,12 @@ function SeletorClientes({ open, onOpenChange, onPick }: { open: boolean; onOpen
             </ul>
           )}
         </div>
-        <p className="hidden">{contatos.length}</p>
       </DialogContent>
     </Dialog>
   );
 }
+
+function SeletorPecas({ open, onOpenChange, inicial, onConfirm }: { open: boolean; onOpenChange: (o: boolean) => void; inicial: Carrinho; onConfirm: (c: Carrinho) => void }) {
   const s = useStore();
   const [q, setQ] = useState("");
   const [sel, setSel] = useState<Carrinho>({});
