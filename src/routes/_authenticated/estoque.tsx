@@ -40,7 +40,7 @@ function Estoque() {
     <Shell title="Peças & estoque" subtitle="Margem de lucro calculada automaticamente."
       action={<input className="input w-72" placeholder="Buscar…" value={q} onChange={(e) => setQ(e.target.value)} />}>
       <Card>
-        <form onSubmit={submit} className="grid gap-5 md:grid-cols-4">
+        <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-5">
           <Field label="Código"><input className="input font-mono text-primary" value={codigo} readOnly /></Field>
           <Field label="Nome da peça"><input className="input" placeholder="Colar baiano 18k" value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /></Field>
           <Field label="Categoria"><select className="input" value={f.categoria} onChange={(e) => setF({ ...f, categoria: e.target.value })}>{CATS.map((c) => <option key={c}>{c}</option>)}</select></Field>
@@ -54,7 +54,7 @@ function Estoque() {
         </form>
       </Card>
       <Card className="mt-6 overflow-x-auto p-0">
-        <table className="table">
+        <table className="table min-w-[640px]">
           <thead><tr><th>Foto</th><th>Código</th><th>Peça</th><th>Categoria</th><th>Custo</th><th>Venda</th><th>Estoque</th><th /></tr></thead>
           <tbody>
             {list.map((p) => (

@@ -36,7 +36,7 @@ function Clientes() {
     <Shell title="Revendedoras" subtitle="Cadastro com foto e busca por nome, código ou CPF."
       action={<input className="input w-72" placeholder="Buscar…" value={q} onChange={(e) => setQ(e.target.value)} />}>
       <Card>
-        <form onSubmit={submit} className="grid gap-5 md:grid-cols-4">
+        <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-5">
           <Field label="Código"><input className="input font-mono text-primary" value={codigo} readOnly /></Field>
           <Field label="Nome completo"><input className="input" placeholder="Maria Oliveira" value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /></Field>
           <Field label="CPF"><input className="input" placeholder="000.000.000-00" value={f.cpf} onChange={(e) => setF({ ...f, cpf: e.target.value })} /></Field>
@@ -46,7 +46,7 @@ function Clientes() {
         </form>
       </Card>
       <Card className="mt-6 overflow-x-auto p-0">
-        <table className="table">
+        <table className="table min-w-[640px]">
           <thead><tr><th>Foto</th><th>Código</th><th>Nome</th><th>CPF</th><th>Telefone</th><th /></tr></thead>
           <tbody>
             {list.map((c) => (

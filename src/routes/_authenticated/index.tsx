@@ -43,7 +43,7 @@ function Kpi({ label, value, format, icon, delay, hint }: { label: string; value
         <span className="field-label">{label}</span>
         <span className="rounded-full bg-accent p-2 text-primary">{icon}</span>
       </div>
-      <div className="mt-3 font-display text-3xl tabular-nums text-foreground"><CountUp value={value} format={format} /></div>
+      <div className="mt-3 truncate font-display text-2xl tabular-nums text-foreground sm:text-3xl"><CountUp value={value} format={format} /></div>
       {hint && <div className="mt-1 text-xs text-muted-foreground">{hint}</div>}
     </div>
   );
@@ -89,12 +89,12 @@ function Dashboard() {
 
   return (
     <Shell title="Visão geral" subtitle="Faturamento, estoque, despesas e revendedoras em tempo real.">
-      <div className="animate-rise mb-6 overflow-hidden rounded-2xl bg-sidebar p-7 text-sidebar-foreground">
+      <div className="animate-rise mb-6 overflow-hidden rounded-2xl bg-sidebar p-5 sm:p-7 text-sidebar-foreground">
         <div className="text-xs uppercase tracking-[0.25em] text-sidebar-foreground/60">{saudacao}</div>
         <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-sm text-sidebar-foreground/70">Saldo de caixa</div>
-            <div className="gold-shimmer font-display text-5xl tabular-nums"><CountUp value={faturamento - despesas} format={brl} /></div>
+            <div className="gold-shimmer font-display text-4xl sm:text-5xl tabular-nums"><CountUp value={faturamento - despesas} format={brl} /></div>
           </div>
           <div className="flex gap-8 text-sm">
             <div><div className="text-sidebar-foreground/60">Margem</div><div className="font-display text-2xl text-sidebar-primary">{faturamento ? Math.round((lucro / faturamento) * 100) : 0}%</div></div>
@@ -103,7 +103,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
         <Kpi label="Faturamento" value={faturamento} format={brl} icon={<TrendingUp className="h-4 w-4" />} delay={60} />
         <Kpi label="Lucro bruto" value={lucro} format={brl} icon={<Wallet className="h-4 w-4" />} delay={120} />
         <Kpi label="Despesas" value={despesas} format={brl} icon={<Receipt className="h-4 w-4" />} delay={180} />
