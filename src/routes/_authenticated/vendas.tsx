@@ -147,7 +147,6 @@ function SeletorClientes({ open, onOpenChange, onPick }: { open: boolean; onOpen
     c.codigo.toLowerCase().includes(t) ||
     (dq.length >= 3 && (digits(c.cpf).includes(dq) || digits(c.telefone).includes(dq)))
   );
-  const contatos = s.clientes.map((c) => `${c.nome} ${c.codigo} ${c.cpf} ${c.telefone}`).join(" ");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
