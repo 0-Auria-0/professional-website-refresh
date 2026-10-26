@@ -30,6 +30,8 @@ function Vendas() {
   const [desc, setDesc] = useState("0");
   const [ok, setOk] = useState(false);
   const [aberto, setAberto] = useState(false);
+  const [selCliente, setSelCliente] = useState(false);
+  const cliente = s.clientes.find((c) => c.id === clienteId);
 
   const linhas = Object.entries(itens)
     .map(([id, qtd]) => ({ peca: s.pecas.find((p) => p.id === id)!, qtd }))
@@ -82,9 +84,15 @@ function Vendas() {
         </Card>
         <Card className="h-fit space-y-5">
           <h2 className="section-title">Dados do pedido</h2>
-          <Field label="Revendedora"><select className="input" value={clienteId} onChange={(e) => setCliente(e.target.value)}>
-            <option value="">Selecione…</option>{s.clientes.map((c) => <option key={c.id} value={c.id}>{c.codigo} · {c.nome}</option>)}
-          </select></Field>
+          <Field label="Revendedora / cliente">
+            <button type="button" className="input flex items-center justify-between text-left" onClick={() => setSelCliente(true)}>
+              {cliente ? (
+                <span className="min-w-0 truncate"><span className="font-mono text-xs text-primary">{cliente.codigo}</span> · <span className="font-medium">{cliente.nome}</span></span>
+              ) : <span className="text-muted-foreground">Buscar cliente…</span>}
+              <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+            </button>
+          </Field>
+          <SeletorClientes open={selCliente} onOpenChange={setSelCliente} onPick={(id) => { setCliente(id); setSelCliente(false); }} />
           <div className="grid grid-cols-2 gap-4">
             <Field label="Desconto (R$)"><input type="number" step="0.01" className="input" value={desc} onChange={(e) => setDesc(e.target.value)} /></Field>
             <Field label="Pagamento"><select className="input" value={pag} onChange={(e) => setPag(e.target.value)}>{PAG.map((p) => <option key={p}>{p}</option>)}</select></Field>
