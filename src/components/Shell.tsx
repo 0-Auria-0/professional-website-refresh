@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
 import type { ReactNode } from "react";
 import { LayoutDashboard, Users, Gem, ShoppingBag, Receipt } from "lucide-react";
 
@@ -25,7 +26,10 @@ export function Shell({ title, subtitle, action, children }: { title: string; su
             </Link>
           ))}
         </nav>
-        <div className="border-t border-sidebar-border px-6 py-5 text-xs text-sidebar-foreground/60">Dados salvos neste navegador</div>
+        <div className="border-t border-sidebar-border px-6 py-5 text-xs text-sidebar-foreground/60">
+          <div>Dados salvos na nuvem</div>
+          <button className="mt-2 text-sidebar-primary hover:underline" onClick={async () => { await supabase.auth.signOut(); window.location.href = "/auth"; }}>Sair da conta</button>
+        </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
         <nav className="flex gap-1 overflow-x-auto bg-sidebar p-2 md:hidden">
