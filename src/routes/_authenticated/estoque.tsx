@@ -4,7 +4,7 @@ import { Trash2, Gem } from "lucide-react";
 import { Shell, Card, Field, Empty } from "@/components/Shell";
 import { useStore, actions, novoCodigo, readImage, brl } from "@/lib/store";
 
-export const Route = createFileRoute("/estoque")({
+export const Route = createFileRoute("/_authenticated/estoque")({
   head: () => ({
     meta: [
       { title: "Peças & estoque — Semijoias" },

@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 import { Shell, Card, Field, Empty } from "@/components/Shell";
 import { useStore, actions, novoCodigo, readImage } from "@/lib/store";
 
-export const Route = createFileRoute("/clientes")({
+export const Route = createFileRoute("/_authenticated/clientes")({
   head: () => ({
     meta: [
       { title: "Revendedoras — Semijoias" },

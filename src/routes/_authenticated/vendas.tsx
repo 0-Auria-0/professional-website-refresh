@@ -4,7 +4,7 @@ import { Gem, Check } from "lucide-react";
 import { Shell, Card, Field, Empty } from "@/components/Shell";
 import { useStore, actions, brl } from "@/lib/store";
 
-export const Route = createFileRoute("/vendas")({
+export const Route = createFileRoute("/_authenticated/vendas")({
   head: () => ({
     meta: [
       { title: "Vendas & caixa — Semijoias" },
