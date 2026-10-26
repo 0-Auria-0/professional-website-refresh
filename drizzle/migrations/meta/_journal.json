@@ -8,6 +8,13 @@
       "when": 1793055042029,
       "tag": "0000_create_registros",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793055723157,
+      "tag": "0001_comprovantes_policies",
+      "breakpoints": true
     }
   ]
 }
