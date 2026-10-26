@@ -9,7 +9,7 @@ export type Peca = {
 };
 export type Venda = {
   id: string; data: string; clienteId: string; pecaId: string; qtd: number;
-  pagamento: string; desconto: number; total: number; custo: number; categoria: string;
+  pagamento: string; parcelas?: number | undefined; desconto: number; total: number; custo: number; categoria: string;
 };
 export type Despesa = { id: string; descricao: string; valor: number; pagamento: string; data: string; comprovante?: string | undefined };
 

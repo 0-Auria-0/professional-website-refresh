@@ -27,6 +27,7 @@ function Vendas() {
   const [clienteId, setCliente] = useState("");
   const [itens, setItens] = useState<Carrinho>({});
   const [pag, setPag] = useState("Pix");
+  const [parc, setParc] = useState("1");
   const [desc, setDesc] = useState("0");
   const [ok, setOk] = useState(false);
   const [aberto, setAberto] = useState(false);
@@ -46,10 +47,10 @@ function Vendas() {
     linhas.forEach((l) => {
       const sub = l.peca.venda * l.qtd;
       const d = bruto ? (desconto * sub) / bruto : 0;
-      actions.addVenda({ clienteId, pecaId: l.peca.id, qtd: l.qtd, pagamento: pag, desconto: d, total: sub - d, custo: l.peca.custo * l.qtd, categoria: l.peca.categoria });
+      actions.addVenda({ clienteId, pecaId: l.peca.id, qtd: l.qtd, pagamento: pag, parcelas: pag === "Cartão de crédito" ? Number(parc) || 1 : undefined, desconto: d, total: sub - d, custo: l.peca.custo * l.qtd, categoria: l.peca.categoria });
     });
-    setItens({}); setDesc("0"); setOk(true); setTimeout(() => setOk(false), 2500);
-    toast.success(`Venda registrada: ${pecasTotal} peça(s).`);
+    setItens({}); setDesc("0"); setParc("1"); setOk(true); setTimeout(() => setOk(false), 2500);
+    toast.success(`Venda registrada: ${pecasTotal} peça(s)${pag === "Cartão de crédito" && Number(parc) > 1 ? ` em ${parc}x` : ""}.`);
   }
 
   return (
@@ -97,6 +98,9 @@ function Vendas() {
             <Field label="Desconto (R$)"><input type="number" step="0.01" className="input" value={desc} onChange={(e) => setDesc(e.target.value)} /></Field>
             <Field label="Pagamento"><select className="input" value={pag} onChange={(e) => setPag(e.target.value)}>{PAG.map((p) => <option key={p}>{p}</option>)}</select></Field>
           </div>
+          {pag === "Cartão de crédito" ? (
+            <Field label="Parcelas"><select className="input" value={parc} onChange={(e) => setParc(e.target.value)}>{Array.from({ length: 12 }, (_, i) => <option key={i + 1} value={String(i + 1)}>{i + 1}x</option>)}</select></Field>
+          ) : null}
           <div className="space-y-1 border-t border-border pt-4 text-sm">
             <div className="flex justify-between text-muted-foreground"><span>Subtotal</span><span className="tabular-nums">{brl(bruto)}</span></div>
             <div className="flex justify-between text-muted-foreground"><span>Desconto</span><span className="tabular-nums">− {brl(desconto)}</span></div>

@@ -202,7 +202,7 @@ function Dashboard() {
                   <li key={v.id} className="flex items-center justify-between py-2.5 text-sm">
                     <div>
                       <div>{s.pecas.find((p) => p.id === v.pecaId)?.nome ?? "Peça"}</div>
-                      <div className="text-xs text-muted-foreground">{s.clientes.find((c) => c.id === v.clienteId)?.nome ?? "—"} · {new Date(v.data).toLocaleDateString("pt-BR")}</div>
+                      <div className="text-xs text-muted-foreground">{s.clientes.find((c) => c.id === v.clienteId)?.nome ?? "—"} · {v.pagamento}{v.parcelas && v.parcelas > 1 ? ` ${v.parcelas}x` : ""} · {new Date(v.data).toLocaleDateString("pt-BR")}</div>
                     </div>
                     <span className="tabular-nums font-medium">{brl(v.total)}</span>
                   </li>
