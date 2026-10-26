@@ -22,7 +22,7 @@ const PAG = ["Pix", "Dinheiro", "Cartão de débito", "Cartão de crédito", "Bo
 
 async function abrirComprovante(path: string) {
   const { data, error } = await supabase.storage.from("comprovantes").createSignedUrl(path, 300);
-  if (error || !data) return toast.error("Não foi possível abrir o comprovante.");
+  if (error || !data) { toast.error("Não foi possível abrir o comprovante."); return; }
   window.open(data.signedUrl, "_blank");
 }
 
@@ -35,7 +35,7 @@ function Despesas() {
   const total = s.despesas.reduce((a, d) => a + d.valor, 0);
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!f.descricao || !Number(f.valor)) return toast.error("Preencha descrição e valor.");
+    if (!f.descricao || !Number(f.valor)) { toast.error("Preencha descrição e valor."); return; }
     setBusy(true);
     let comprovante: string | undefined;
     if (file) {
@@ -43,7 +43,7 @@ function Despesas() {
       const ext = file.name.split(".").pop() || "bin";
       const path = `${u.user?.id}/${crypto.randomUUID()}.${ext}`;
       const { error } = await supabase.storage.from("comprovantes").upload(path, file, { contentType: file.type });
-      if (error) { setBusy(false); return toast.error("Falha ao enviar o comprovante."); }
+      if (error) { setBusy(false); toast.error("Falha ao enviar o comprovante."); return; }
       comprovante = path;
     }
     actions.addDespesa({ descricao: f.descricao, valor: Number(f.valor), pagamento: f.pagamento, comprovante });
