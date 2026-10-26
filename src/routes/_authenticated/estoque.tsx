@@ -21,18 +21,18 @@ const QUAL = ["Folheado 10 milésimos", "Banho ouro 18k", "Banho ródio", "Prata
 
 function Estoque() {
   const s = useStore();
-  const [f, setF] = useState({ nome: "", categoria: "Brinco", qualidade: "Folheado 10 milésimos", estoque: "1", custo: "", margem: "100" });
+  const [f, setF] = useState({ nome: "", categoria: "Brinco", qualidade: "Folheado 10 milésimos", estoque: "1", custo: "", margem: "100", numero: "" });
   const [file, setFile] = useState<File>();
   const [q, setQ] = useState("");
   const codigo = novoCodigo("PC", s.pecas);
   const venda = (Number(f.custo) || 0) * (1 + (Number(f.margem) || 0) / 100);
-  const list = s.pecas.filter((p) => `${p.nome} ${p.codigo} ${p.categoria}`.toLowerCase().includes(q.toLowerCase()));
+  const list = s.pecas.filter((p) => `${p.nome} ${p.codigo} ${p.categoria} ${p.numero ?? ""}`.toLowerCase().includes(q.toLowerCase()));
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!f.nome) return;
-    actions.addPeca({ codigo, nome: f.nome, categoria: f.categoria, qualidade: f.qualidade, estoque: Number(f.estoque) || 0, custo: Number(f.custo) || 0, venda, foto: await readImage(file) });
-    setF({ ...f, nome: "", custo: "", estoque: "1" }); setFile(undefined);
+    actions.addPeca({ codigo, nome: f.nome, categoria: f.categoria, qualidade: f.qualidade, estoque: Number(f.estoque) || 0, custo: Number(f.custo) || 0, venda, numero: f.categoria === "Anel" ? f.numero : undefined, foto: await readImage(file) });
+    setF({ ...f, nome: "", custo: "", estoque: "1", numero: "" }); setFile(undefined);
     (e.target as HTMLFormElement).reset();
   }
 
@@ -45,6 +45,9 @@ function Estoque() {
           <Field label="Nome da peça"><input className="input" placeholder="Colar baiano 18k" value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /></Field>
           <Field label="Categoria"><select className="input" value={f.categoria} onChange={(e) => setF({ ...f, categoria: e.target.value })}>{CATS.map((c) => <option key={c}>{c}</option>)}</select></Field>
           <Field label="Qualidade / banho"><select className="input" value={f.qualidade} onChange={(e) => setF({ ...f, qualidade: e.target.value })}>{QUAL.map((c) => <option key={c}>{c}</option>)}</select></Field>
+          {f.categoria === "Anel" ? (
+            <Field label="Numeração (anel)"><input className="input" inputMode="numeric" placeholder="Ex.: 17" value={f.numero} onChange={(e) => setF({ ...f, numero: e.target.value })} /></Field>
+          ) : null}
           <Field label="Quantidade"><input type="number" min="0" className="input" value={f.estoque} onChange={(e) => setF({ ...f, estoque: e.target.value })} /></Field>
           <Field label="Preço de custo (R$)"><input type="number" step="0.01" className="input" value={f.custo} onChange={(e) => setF({ ...f, custo: e.target.value })} /></Field>
           <Field label="Margem (%)"><input type="number" className="input" value={f.margem} onChange={(e) => setF({ ...f, margem: e.target.value })} /></Field>
@@ -62,7 +65,7 @@ function Estoque() {
                 <td>{p.foto ? <img src={p.foto} alt="" className="h-10 w-10 rounded-md object-cover" /> : <div className="avatar rounded-md"><Gem className="h-4 w-4" /></div>}</td>
                 <td className="font-mono text-xs text-primary">{p.codigo}</td>
                 <td><div className="font-medium">{p.nome}</div><div className="text-xs text-muted-foreground">{p.qualidade}</div></td>
-                <td>{p.categoria}</td><td className="tabular-nums">{brl(p.custo)}</td><td className="tabular-nums font-medium">{brl(p.venda)}</td>
+                <td>{p.categoria}{p.numero ? <span className="ml-1 font-mono text-xs text-muted-foreground">Nº {p.numero}</span> : null}</td><td className="tabular-nums">{brl(p.custo)}</td><td className="tabular-nums font-medium">{brl(p.venda)}</td>
                 <td><span className={p.estoque > 0 ? "badge" : "badge badge-danger"}>{p.estoque} un.</span></td>
                 <td className="text-right"><button className="btn-icon" onClick={() => actions.delPeca(p.id)} aria-label="Excluir"><Trash2 className="h-4 w-4" /></button></td>
               </tr>

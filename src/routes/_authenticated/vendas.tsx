@@ -72,7 +72,7 @@ function Vendas() {
                   <Thumb foto={peca.foto} nome={peca.nome} />
                   <div className="min-w-0 flex-1">
                     <div className="truncate font-medium">{peca.nome}</div>
-                    <div className="text-xs text-muted-foreground">{peca.codigo} · {brl(peca.venda)}</div>
+                    <div className="text-xs text-muted-foreground">{peca.codigo}{peca.numero ? ` · Anel Nº ${peca.numero}` : ""} · {brl(peca.venda)}</div>
                   </div>
                   <Qtd value={qtd} max={peca.estoque} onChange={(v) => setItens({ ...itens, [peca.id]: v })} />
                   <div className="w-24 text-right tabular-nums">{brl(peca.venda * qtd)}</div>
@@ -187,7 +187,7 @@ function SeletorPecas({ open, onOpenChange, inicial, onConfirm }: { open: boolea
   const [q, setQ] = useState("");
   const [sel, setSel] = useState<Carrinho>({});
   useEffect(() => { if (open) { setSel(inicial); setQ(""); } }, [open, inicial]);
-  const lista = s.pecas.filter((p) => `${p.nome} ${p.codigo} ${p.categoria}`.toLowerCase().includes(q.toLowerCase()));
+  const lista = s.pecas.filter((p) => `${p.nome} ${p.codigo} ${p.categoria} ${p.numero ?? ""}`.toLowerCase().includes(q.toLowerCase()));
   const qtdSel = Object.values(sel).reduce((a, b) => a + b, 0);
   const valor = Object.entries(sel).reduce((a, [id, n]) => a + (s.pecas.find((p) => p.id === id)?.venda ?? 0) * n, 0);
 
@@ -209,7 +209,7 @@ function SeletorPecas({ open, onOpenChange, inicial, onConfirm }: { open: boolea
                     <Thumb foto={p.foto} nome={p.nome} />
                     <button type="button" className="min-w-0 flex-1 text-left" disabled={p.estoque <= 0} onClick={() => setSel({ ...sel, [p.id]: n ? 0 : 1 })}>
                       <div className="truncate text-sm font-medium">{p.nome}</div>
-                      <div className="text-xs text-muted-foreground">{p.codigo} · {brl(p.venda)} · {p.estoque} em estoque</div>
+                      <div className="text-xs text-muted-foreground">{p.codigo}{p.numero ? ` · Anel Nº ${p.numero}` : ""} · {brl(p.venda)} · {p.estoque} em estoque</div>
                     </button>
                     {p.estoque > 0 ? <Qtd value={n} max={p.estoque} onChange={(v) => setSel({ ...sel, [p.id]: v })} /> : <span className="text-xs text-destructive">Esgotada</span>}
                   </li>
