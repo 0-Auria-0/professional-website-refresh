@@ -35,7 +35,7 @@ function Estoque() {
     const base = { nome: f.nome, categoria: f.categoria, qualidade: f.qualidade, estoque: Number(f.estoque) || 0, custo: Number(f.custo) || 0, venda, foto };
     const numeros = f.categoria === "Anel" ? f.numero.split(/[,;\s]+/).map((t) => t.trim()).filter(Boolean) : [];
     if (numeros.length > 1) {
-      let lista = s.pecas;
+      let lista: { codigo: string }[] = s.pecas;
       for (const numero of numeros) {
         const cod = novoCodigo("PC", lista);
         actions.addPeca({ ...base, codigo: cod, numero });
