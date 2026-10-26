@@ -32,7 +32,7 @@ function Despesas() {
     <Shell title="Despesas" subtitle="Custos fixos, embalagens, fretes e insumos."
       action={<div className="text-right"><div className="field-label">Total gasto</div><div className="font-display text-2xl">{brl(total)}</div></div>}>
       <Card>
-        <form onSubmit={submit} className="grid gap-5 md:grid-cols-4">
+        <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-5">
           <Field label="Descrição"><input className="input" placeholder="Embalagens, frete…" value={f.descricao} onChange={(e) => setF({ ...f, descricao: e.target.value })} /></Field>
           <Field label="Valor (R$)"><input type="number" step="0.01" className="input" value={f.valor} onChange={(e) => setF({ ...f, valor: e.target.value })} /></Field>
           <Field label="Pagamento"><select className="input" value={f.pagamento} onChange={(e) => setF({ ...f, pagamento: e.target.value })}>{PAG.map((p) => <option key={p}>{p}</option>)}</select></Field>
@@ -40,7 +40,7 @@ function Despesas() {
         </form>
       </Card>
       <Card className="mt-6 overflow-x-auto p-0">
-        <table className="table">
+        <table className="table min-w-[640px]">
           <thead><tr><th>Data</th><th>Descrição</th><th>Pagamento</th><th>Valor</th><th /></tr></thead>
           <tbody>
             {s.despesas.map((d) => (
