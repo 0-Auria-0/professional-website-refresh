@@ -65,7 +65,7 @@ function Estoque() {
                 <td>{p.foto ? <img src={p.foto} alt="" className="h-10 w-10 rounded-md object-cover" /> : <div className="avatar rounded-md"><Gem className="h-4 w-4" /></div>}</td>
                 <td className="font-mono text-xs text-primary">{p.codigo}</td>
                 <td><div className="font-medium">{p.nome}</div><div className="text-xs text-muted-foreground">{p.qualidade}</div></td>
-                <td>{p.categoria}</td><td className="tabular-nums">{brl(p.custo)}</td><td className="tabular-nums font-medium">{brl(p.venda)}</td>
+                <td>{p.categoria}{p.numero ? <span className="ml-1 font-mono text-xs text-muted-foreground">Nº {p.numero}</span> : null}</td><td className="tabular-nums">{brl(p.custo)}</td><td className="tabular-nums font-medium">{brl(p.venda)}</td>
                 <td><span className={p.estoque > 0 ? "badge" : "badge badge-danger"}>{p.estoque} un.</span></td>
                 <td className="text-right"><button className="btn-icon" onClick={() => actions.delPeca(p.id)} aria-label="Excluir"><Trash2 className="h-4 w-4" /></button></td>
               </tr>
