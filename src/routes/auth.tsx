@@ -114,15 +114,39 @@ function AuthPage() {
     return () => data.subscription.unsubscribe();
   }, [navigate]);
 
+  async function esqueci() {
+    if (!email) { toast.error("Digite seu e-mail no campo acima primeiro."); return; }
+    setBusy(true);
+    await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/reset-password` });
+    setBusy(false);
+    toast.success("Se o e-mail estiver cadastrado, enviamos um link para criar nova senha.");
+  }
+
   async function submit(e: FormEvent) {
     e.preventDefault();
+    const KEY = "login-tentativas";
+    const reg = JSON.parse(localStorage.getItem(KEY) || '{"n":0,"ate":0}') as { n: number; ate: number };
+    if (reg.ate > Date.now()) {
+      const min = Math.ceil((reg.ate - Date.now()) / 60000);
+      toast.error(`Muitas tentativas. Tente de novo em ${min} min ou use "Esqueci minha senha".`);
+      return;
+    }
+    if (modo === "criar" && (senha.length < 8 || !/[A-Za-z]/.test(senha) || !/\d/.test(senha))) {
+      toast.error("A senha precisa ter 8 caracteres ou mais, com letras e números.");
+      return;
+    }
     setBusy(true);
     if (modo === "entrar") {
       const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
-      if (error) toast.error("E-mail ou senha incorretos.");
+      if (error) {
+        const n = reg.n + 1;
+        const bloqueia = n >= 5;
+        localStorage.setItem(KEY, JSON.stringify({ n: bloqueia ? 0 : n, ate: bloqueia ? Date.now() + 15 * 60000 : 0 }));
+        toast.error(bloqueia ? "5 tentativas erradas. Acesso bloqueado por 15 minutos." : `E-mail ou senha incorretos. Restam ${5 - n} tentativas.`);
+      } else localStorage.removeItem(KEY);
     } else {
       const { error } = await supabase.auth.signUp({ email, password: senha, options: { emailRedirectTo: window.location.origin } });
-      if (error) toast.error(error.message);
+      if (error) toast.error(/pwned|leak|compromised|weak/i.test(error.message) ? "Essa senha já apareceu em vazamentos na internet. Escolha outra." : error.message);
       else toast.success("Conta criada! Confirme pelo link enviado ao seu e-mail.");
     }
     setBusy(false);
@@ -295,11 +319,16 @@ function AuthPage() {
               <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground"><span className="h-px flex-1 bg-border" />ou<span className="h-px flex-1 bg-border" /></div>
               <form onSubmit={submit} className="space-y-3">
                 <input className="input" type="email" required placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input className="input" type="password" required minLength={6} placeholder="Senha (mín. 6 caracteres)" value={senha} onChange={(e) => setSenha(e.target.value)} />
+                <input className="input" type="password" required minLength={modo === "criar" ? 8 : 6} placeholder={modo === "criar" ? "Senha (8+ caracteres, letras e números)" : "Senha"} value={senha} onChange={(e) => setSenha(e.target.value)} />
                 <button disabled={busy} className="btn-primary w-full">
                   {modo === "entrar" ? "Entrar" : "Criar conta"}
                 </button>
               </form>
+              {modo === "entrar" && (
+                <button type="button" onClick={esqueci} disabled={busy} className="mt-3 w-full text-center text-xs text-muted-foreground hover:text-primary hover:underline">
+                  Esqueci minha senha
+                </button>
+              )}
               <p className="mt-5 text-center text-sm text-muted-foreground">
                 {modo === "entrar" ? "Ainda não tem conta? " : "Já tem conta? "}
                 <button className="font-medium text-primary hover:underline" onClick={() => setModo(modo === "entrar" ? "criar" : "entrar")}>
