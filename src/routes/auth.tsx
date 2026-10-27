@@ -50,8 +50,40 @@ function AuthPage() {
     if (r.error) toast.error("Não foi possível entrar com Google.");
   }
 
+  const recursos = [
+    { t: "Vendas & caixa", d: "Lançamento com várias peças, parcelas no cartão e baixa automática de estoque." },
+    { t: "Peças & estoque", d: "Cadastro com margem automática, numeração de anéis e alerta de estoque baixo." },
+    { t: "Revendedoras", d: "Busca por nome, CPF ou telefone e ranking das melhores vendedoras." },
+    { t: "Despesas", d: "Controle de custos com comprovantes salvos com segurança na nuvem." },
+  ];
   return (
-    <div className="flex min-h-screen items-center justify-center bg-sidebar px-4">
+    <div className="grid min-h-screen bg-sidebar lg:grid-cols-[1.15fr_1fr]">
+      <section className="relative flex flex-col justify-between overflow-hidden px-6 py-10 text-sidebar-foreground sm:px-12 lg:py-14">
+        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-sidebar-primary/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-40 -left-20 h-96 w-96 rounded-full bg-sidebar-primary/10 blur-3xl" />
+        <div className="relative">
+          <div className="font-display text-3xl tracking-wide">Semijoias</div>
+          <div className="mt-1 text-[11px] uppercase tracking-[0.25em] text-sidebar-primary">Gestão & ateliê</div>
+        </div>
+        <div className="relative my-10 max-w-xl">
+          <h1 className="font-display text-4xl leading-tight sm:text-5xl">
+            A gestão do seu negócio de semijoias, <span className="text-sidebar-primary">elegante e completa.</span>
+          </h1>
+          <p className="mt-4 text-sm text-sidebar-foreground/70 sm:text-base">
+            Estoque, vendas, revendedoras e finanças em um só lugar — no computador ou no celular.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {recursos.map((r) => (
+              <div key={r.t} className="rounded-lg border border-sidebar-border bg-sidebar-accent/40 p-4">
+                <div className="flex items-center gap-2 text-sm font-semibold"><span className="h-1.5 w-1.5 rounded-full bg-sidebar-primary" />{r.t}</div>
+                <p className="mt-1.5 text-xs leading-relaxed text-sidebar-foreground/65">{r.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="relative text-xs text-sidebar-foreground/50">Dados protegidos e salvos na nuvem · Cada conta vê apenas os próprios dados</div>
+      </section>
+      <div className="flex items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-sm rounded-xl bg-card p-8 shadow-xl">
         <div className="text-center">
           <div className="font-display text-3xl text-foreground">Semijoias</div>
