@@ -364,9 +364,23 @@ function AuthPage() {
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                     Tenho 19 anos e estou começando na programação. Gosto de viajar, de viver momentos de qualidade e,
-                    nos momentos calmos, faço crochê. As linguagens que mais gosto e usei neste site são
-                    JavaScript e CSS.
+                    nos momentos calmos, faço crochê. As linguagens que mais gosto são JavaScript e CSS — e são elas que
+                    dão vida a este site, junto com React e SQL.
                   </p>
+                  <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                    {[
+                      { t: "JavaScript / TypeScript", d: "toda a lógica do site" },
+                      { t: "CSS", d: "cores, fontes e layout" },
+                      { t: "React", d: "as telas que se atualizam" },
+                      { t: "SQL", d: "os dados guardados na nuvem" },
+                    ].map((l) => (
+                      <div key={l.t} className="rounded-md border border-border bg-muted/50 px-3 py-2">
+                        <div className="text-sm font-semibold text-foreground">{l.t}</div>
+                        <div className="text-xs text-muted-foreground">{l.d}</div>
+                      </div>
+                    ))}
+                  </div>
+
                   <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
                     <a href="tel:+5533984162381" className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3.5 py-2 text-sm font-medium text-foreground transition hover:bg-muted">
                       <Phone className="h-4 w-4 text-primary" /> (33) 98416-2381
