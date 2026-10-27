@@ -1,9 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { toast } from "sonner";
-import { ArrowDown, ArrowRight, Boxes, ReceiptText, ShieldCheck, ShoppingBag, Users } from "lucide-react";
+import { ArrowDown, ArrowRight, Boxes, GraduationCap, Heart, Mail, Phone, ReceiptText, ShieldCheck, ShoppingBag, Users } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import paulaAsset from "@/assets/paula.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -340,8 +341,53 @@ function AuthPage() {
         </div>
       </section>
 
+      <section className="bg-muted/60 px-5 py-14 sm:py-20">
+        <div className="mx-auto max-w-3xl">
+          <Reveal>
+            <div className="text-center">
+              <div className="text-[11px] uppercase tracking-[0.22em] text-primary">Quem criou</div>
+              <h2 className="mt-3 font-display text-3xl text-foreground sm:text-4xl">Feito por Paula Bretas</h2>
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="card mt-8 p-6 sm:p-8">
+              <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+                <img
+                  src={paulaAsset.url}
+                  alt="Foto de Paula Bretas"
+                  className="h-40 w-40 shrink-0 rounded-full border-4 border-primary/20 object-cover object-top shadow-lg"
+                />
+                <div className="text-center sm:text-left">
+                  <h3 className="font-display text-2xl text-foreground">Paula Bretas Alves</h3>
+                  <p className="mt-1 flex items-center justify-center gap-2 text-sm text-primary sm:justify-start">
+                    <GraduationCap className="h-4 w-4" /> Estudante de Sistemas de Informação
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    Tenho 19 anos e estou começando na programação. Gosto de viajar, de viver momentos de qualidade e,
+                    nos momentos calmos, faço crochê. As linguagens que mais gosto e usei neste site são
+                    JavaScript e CSS.
+                  </p>
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+                    <a href="tel:+5533984162381" className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3.5 py-2 text-sm font-medium text-foreground transition hover:bg-muted">
+                      <Phone className="h-4 w-4 text-primary" /> (33) 98416-2381
+                    </a>
+                    <a href="mailto:pbretas15@gmail.com" className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3.5 py-2 text-sm font-medium text-foreground transition hover:bg-muted">
+                      <Mail className="h-4 w-4 text-primary" /> pbretas15@gmail.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 flex items-center justify-center gap-2 border-t border-border pt-5 text-xs text-muted-foreground">
+                <Heart className="h-4 w-4 text-primary" /> Sistema criado com dedicação para quem vende semijoias
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       <footer className="border-t border-border bg-muted/60 px-5 py-8 text-center text-xs text-muted-foreground">
-        Semijoias Gestão · vendas, estoque, revendedoras e despesas em um só lugar
+        <div>Semijoias Gestão · vendas, estoque, revendedoras e despesas em um só lugar</div>
+        <div className="mt-2">Criado por Paula Bretas · (33) 98416-2381 · pbretas15@gmail.com</div>
       </footer>
     </div>
   );
