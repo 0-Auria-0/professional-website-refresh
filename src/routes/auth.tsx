@@ -1,9 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { toast } from "sonner";
-import { ArrowDown, ArrowRight, Boxes, ReceiptText, ShieldCheck, ShoppingBag, Users } from "lucide-react";
+import { ArrowDown, ArrowRight, Boxes, GraduationCap, Heart, Mail, Phone, ReceiptText, ShieldCheck, ShoppingBag, Users } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import paulaAsset from "@/assets/paula.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
