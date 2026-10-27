@@ -26,8 +26,8 @@ function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; 
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
+      (entries) => {
+        if (entries.some((en) => en.isIntersecting)) {
           setShow(true);
           io.disconnect();
         }
