@@ -363,9 +363,10 @@ function AuthPage() {
                     <GraduationCap className="h-4 w-4" /> Estudante de Sistemas de Informação
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    Tenho 19 anos e estou começando na programação. Gosto de viajar, de viver momentos de qualidade e,
-                    nos momentos calmos, faço crochê. As linguagens que mais gosto são JavaScript e CSS — e são elas que
-                    dão vida a este site, junto com React e SQL.
+                    Tenho 19 anos, curso Sistemas de Informação e comecei na programação há pouco tempo — o suficiente
+                    para descobrir o prazer de criar algo do zero. Gosto de viajar, de aproveitar os momentos de
+                    qualidade e, nos dias mais calmos, faço crochê. JavaScript e CSS são as linguagens que mais me
+                    encantam, e são elas que dão vida a este site, lado a lado com React e SQL.
                   </p>
                   <div className="mt-5 grid gap-2 sm:grid-cols-2">
                     {[
